@@ -38,9 +38,10 @@ public class AsyncClient {
     public static void main(String[] args) throws Exception {
         TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
         TAsyncClientManager asyncClientManager = new TAsyncClientManager();
-        TNonblockingSocket nonblockingSocket = new TNonblockingSocket("localhost", 9090);
-        UserService.AsyncClient client1 = new UserService.AsyncClient(protocolFactory, asyncClientManager, nonblockingSocket);
-        UserService.AsyncClient client2 = new UserService.AsyncClient(protocolFactory, asyncClientManager, nonblockingSocket);
+        //如果共享同一个TNonblockingSocket的话， client在启动的时候会报java.nio.channels.ConnectionPendingException
+        //主要是由于org.apache.thrift.transport.TNonblockingTransport.startConnect() 可能会在同一个TNonblockingTransport对象上连续调用多次
+        UserService.AsyncClient client1 = new UserService.AsyncClient(protocolFactory, asyncClientManager, new TNonblockingSocket("localhost", 9090));
+        UserService.AsyncClient client2 = new UserService.AsyncClient(protocolFactory, asyncClientManager, new TNonblockingSocket("localhost", 9090));
         
         final CountDownLatch latch = new CountDownLatch(2);
         client1.addUser(UserInstance.INSTANCE.getUser(), new AsyncMethodCallback<Void>() {
