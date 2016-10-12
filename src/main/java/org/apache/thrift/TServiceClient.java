@@ -59,21 +59,26 @@ public abstract class TServiceClient {
   }
 
   protected void sendBase(String methodName, TBase<?,?> args) throws TException {
+    //request
     sendBase(methodName, args, TMessageType.CALL);
   }
 
   protected void sendBaseOneway(String methodName, TBase<?,?> args) throws TException {
     sendBase(methodName, args, TMessageType.ONEWAY);
   }
-
+  //not thread safe, can not invoke concurrently
   private void sendBase(String methodName, TBase<?,?> args, byte type) throws TException {
+    //写头信息
     oprot_.writeMessageBegin(new TMessage(methodName, type, ++seqid_));
+    //写body
     args.write(oprot_);
     oprot_.writeMessageEnd();
+    //写入socket中
     oprot_.getTransport().flush();
   }
 
   protected void receiveBase(TBase<?,?> result, String methodName) throws TException {
+    //读取header
     TMessage msg = iprot_.readMessageBegin();
     if (msg.type == TMessageType.EXCEPTION) {
       TApplicationException x = new TApplicationException();
@@ -83,10 +88,11 @@ public abstract class TServiceClient {
     }
     //syso?  are you kidding me?
     System.out.format("Received %d%n", msg.seqid);
-    if (msg.seqid != seqid_) {
+    if (msg.seqid != seqid_) {// 这也意味这无法在多线程中调用
       throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID,
           String.format("%s failed: out of sequence response: expected %d but got %d", methodName, seqid_, msg.seqid));
     }
+    //读取body
     result.read(iprot_);
     iprot_.readMessageEnd();
   }

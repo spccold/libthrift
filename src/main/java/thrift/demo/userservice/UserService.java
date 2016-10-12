@@ -85,7 +85,9 @@ public class UserService {
 
     public User getUser(String name) throws org.apache.thrift.TException
     {
+      //1. 先发送请求
       send_getUser(name);
+      //2. 紧接着就block读取结果
       return recv_getUser();
     }
 

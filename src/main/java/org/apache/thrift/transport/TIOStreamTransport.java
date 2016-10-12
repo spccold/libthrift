@@ -156,6 +156,7 @@ public class TIOStreamTransport extends TTransport {
       throw new TTransportException(TTransportException.NOT_OPEN, "Cannot flush null outputStream");
     }
     try {
+      //刷新socket流
       outputStream_.flush();
     } catch (IOException iox) {
       throw new TTransportException(TTransportException.UNKNOWN, iox);

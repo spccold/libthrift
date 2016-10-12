@@ -24,8 +24,12 @@ package org.apache.thrift.protocol;
  *
  */
 public final class TMessageType {
+  //request
   public static final byte CALL  = 1;
+  //response
   public static final byte REPLY = 2;
+  //response with exception
   public static final byte EXCEPTION = 3;
+  // request with one way
   public static final byte ONEWAY = 4;
 }

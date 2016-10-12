@@ -218,8 +218,11 @@ public class TSocket extends TIOStreamTransport {
     }
 
     try {
+      //连接远程server
       socket_.connect(new InetSocketAddress(host_, port_), connectTimeout_);
+      //获取输入流
       inputStream_ = new BufferedInputStream(socket_.getInputStream(), 1024);
+      //获取输出流
       outputStream_ = new BufferedOutputStream(socket_.getOutputStream(), 1024);
     } catch (IOException iox) {
       close();
