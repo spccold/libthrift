@@ -1,8 +1,8 @@
-package thrift.demo;
-import thrift.demo.shared.SharedStruct;
+package thrift.demo.tutorial.rpc;
 import thrift.demo.tutorial.Calculator;
 import thrift.demo.tutorial.InvalidOperation;
 import thrift.demo.tutorial.Operation;
+import thrift.demo.tutorial.SharedStruct;
 import thrift.demo.tutorial.Work;
 
 import org.apache.thrift.TException;

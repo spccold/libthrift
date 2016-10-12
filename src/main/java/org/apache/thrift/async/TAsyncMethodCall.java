@@ -145,6 +145,7 @@ public abstract class TAsyncMethodCall<T> {
       state = State.WRITING_REQUEST_SIZE;
       key = transport.registerSelector(sel, SelectionKey.OP_WRITE);
     } else {
+      //初始状态
       state = State.CONNECTING;
       key = transport.registerSelector(sel, SelectionKey.OP_CONNECT);
 
@@ -154,7 +155,7 @@ public abstract class TAsyncMethodCall<T> {
         registerForFirstWrite(key);
       }
     }
-
+    //attach current TAsyncMethodCall to SelectionKey
     key.attach(this);
   }
 
@@ -185,10 +186,10 @@ public abstract class TAsyncMethodCall<T> {
     // Transition function
     try {
       switch (state) {
-        case CONNECTING:
+        case CONNECTING://执行
           doConnecting(key);
           break;
-        case WRITING_REQUEST_SIZE:
+        case WRITING_REQUEST_SIZE://执行请求写操作
           doWritingRequestSize();
           break;
         case WRITING_REQUEST_BODY:
@@ -256,7 +257,7 @@ public abstract class TAsyncMethodCall<T> {
       throw new IOException("Write call frame failed");
     }
     if (frameBuffer.remaining() == 0) {
-      if (isOneway) {
+      if (isOneway) {//oneway调用的话, 直接返回结果(注意:这时数据是写完了的)
         cleanUpAndFireCallback(key);
       } else {
         state = State.READING_RESPONSE_SIZE;
@@ -270,6 +271,7 @@ public abstract class TAsyncMethodCall<T> {
     if (transport.write(sizeBuffer) < 0) {
       throw new IOException("Write call frame size failed");
     }
+    //知道写完请求
     if (sizeBuffer.remaining() == 0) {
       state = State.WRITING_REQUEST_BODY;
     }

@@ -1,4 +1,4 @@
-package thrift.demo;
+package thrift.demo.tutorial.rpc;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
@@ -20,9 +20,9 @@ package thrift.demo;
 
 import java.util.HashMap;
 
-import thrift.demo.shared.SharedStruct;
 import thrift.demo.tutorial.Calculator;
 import thrift.demo.tutorial.InvalidOperation;
+import thrift.demo.tutorial.SharedStruct;
 import thrift.demo.tutorial.Work;
 
 public class CalculatorHandler implements Calculator.Iface {

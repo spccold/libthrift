@@ -47,7 +47,7 @@ public class TAsyncClientManager {
     this.selectThread = new SelectThread();
     selectThread.start();
   }
-
+  //每一次异步的call都会到这里
   public void call(TAsyncMethodCall method) throws TException {
     if (!isRunning()) {
       throw new TException("SelectThread is not running");

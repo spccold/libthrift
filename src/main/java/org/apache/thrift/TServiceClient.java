@@ -81,6 +81,7 @@ public abstract class TServiceClient {
       iprot_.readMessageEnd();
       throw x;
     }
+    //syso?  are you kidding me?
     System.out.format("Received %d%n", msg.seqid);
     if (msg.seqid != seqid_) {
       throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID,
