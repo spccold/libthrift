@@ -42,7 +42,7 @@ public class TServerSocket extends TServerTransport {
   private ServerSocket serverSocket_ = null;
 
   /**
-   * Timeout for client sockets from accept
+   * Timeout for client sockets from accept(socket.so_timeout())
    */
   private int clientTimeout_ = 0;
 
@@ -112,8 +112,9 @@ public class TServerSocket extends TServerTransport {
 
   public void listen() throws TTransportException {
     // Make sure not to block on accept
-    if (serverSocket_ != null) {
+      if (serverSocket_ != null) {
       try {
+        // A timeout of zero is interpreted as an infinite timeout.
         serverSocket_.setSoTimeout(0);
       } catch (SocketException sx) {
         LOGGER.error("Could not set socket timeout.", sx);

@@ -68,9 +68,9 @@ public abstract class TServiceClient {
   }
   //not thread safe, can not invoke concurrently
   private void sendBase(String methodName, TBase<?,?> args, byte type) throws TException {
-    //写头信息
+    //写头信息(方法名称->请求类型->packageId)
     oprot_.writeMessageBegin(new TMessage(methodName, type, ++seqid_));
-    //写body
+    //写body(args-> Thrift生成的对象(TBase))
     args.write(oprot_);
     oprot_.writeMessageEnd();
     //写入socket中

@@ -39,8 +39,11 @@ public abstract class TServer {
   }
 
   public static abstract class AbstractServerArgs<T extends AbstractServerArgs<T>> {
+    //transport(blocking/no blocking) type for current server
     final TServerTransport serverTransport;
     TProcessorFactory processorFactory;
+    
+    //all default initial
     TTransportFactory inputTransportFactory = new TTransportFactory();
     TTransportFactory outputTransportFactory = new TTransportFactory();
     TProtocolFactory inputProtocolFactory = new TBinaryProtocol.Factory();
@@ -56,6 +59,7 @@ public abstract class TServer {
     }
 
     public T processor(TProcessor processor) {
+      //for what?
       this.processorFactory = new TProcessorFactory(processor);
       return (T) this;
     }

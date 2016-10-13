@@ -111,12 +111,13 @@ public class TBinaryProtocol extends TProtocol {
   }
 
   public void writeMessageBegin(TMessage message) throws TException {
-    if (strictWrite_) {
+    if (strictWrite_) {//默认为false
       int version = VERSION_1 | message.type;
       writeI32(version);
       writeString(message.name);
       writeI32(message.seqid);
     } else {
+      //write string length and bytes data
       writeString(message.name);
       writeByte(message.type);
       writeI32(message.seqid);
@@ -130,6 +131,7 @@ public class TBinaryProtocol extends TProtocol {
   public void writeStructEnd() {}
 
   public void writeFieldBegin(TField field) throws TException {
+    //field name不写道远程
     writeByte(field.type);
     writeI16(field.id);
   }
@@ -233,6 +235,7 @@ public class TBinaryProtocol extends TProtocol {
       if (strictRead_) {
         throw new TProtocolException(TProtocolException.BAD_VERSION, "Missing version in readMessageBegin, old client?");
       }
+      //read message header
       return new TMessage(readStringBody(size), readByte(), readI32());
     }
   }
@@ -246,6 +249,7 @@ public class TBinaryProtocol extends TProtocol {
   public void readStructEnd() {}
 
   public TField readFieldBegin() throws TException {
+    //maybe stop
     byte type = readByte();
     short id = type == TType.STOP ? 0 : readI16();
     return new TField("", type, id);

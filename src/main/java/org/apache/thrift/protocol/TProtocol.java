@@ -157,6 +157,7 @@ public abstract class TProtocol {
    * Scheme accessor
    */
   public Class<? extends IScheme> getScheme() {
+    //标准的schema
     return StandardScheme.class;
   }
 }

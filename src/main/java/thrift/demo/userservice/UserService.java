@@ -12,6 +12,7 @@ import org.apache.thrift.scheme.StandardScheme;
 
 import org.apache.thrift.scheme.TupleScheme;
 import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TType;
 import org.apache.thrift.protocol.TProtocolException;
 import org.apache.thrift.EncodingUtils;
 import org.apache.thrift.server.AbstractNonblockingServer.*;
@@ -226,7 +227,7 @@ public class UserService {
         return null;
       }
     }
-
+    //for client getUser invoke
     public static class getUser<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getUser_args> {
       public getUser() {
         super("getUser");
@@ -955,7 +956,8 @@ public class UserService {
     }
 
     public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
+        //write
+        scheme(oprot).write(oprot, this);
     }
 
     @Override
@@ -1011,7 +1013,7 @@ public class UserService {
         iprot.readStructBegin();
         while (true)
         {
-          schemeField = iprot.readFieldBegin();
+          schemeField = iprot.readFieldBegin();//read type and id
           if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
             break;
           }
@@ -1034,16 +1036,20 @@ public class UserService {
         // check for required fields of primitive type, which can't be checked in the validate method
         struct.validate();
       }
-
+      //write
       public void write(org.apache.thrift.protocol.TProtocol oprot, getUser_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         if (struct.name != null) {
+          //write type(String) and id
           oprot.writeFieldBegin(NAME_FIELD_DESC);
+          //write name length(int32)
+          //write name bytes
           oprot.writeString(struct.name);
           oprot.writeFieldEnd();
         }
+        //write TType.STOP
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1073,6 +1079,7 @@ public class UserService {
     }
 
     private static <S extends IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+        //TBinaryProtocol with StandardScheme
       return (StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
     }
   }

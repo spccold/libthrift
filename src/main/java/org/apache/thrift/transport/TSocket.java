@@ -137,6 +137,7 @@ public class TSocket extends TIOStreamTransport {
     socket_ = new Socket();
     try {
       socket_.setSoLinger(false, 0);
+      //
       socket_.setTcpNoDelay(true);
       socket_.setKeepAlive(true);
       socket_.setSoTimeout(socketTimeout_);

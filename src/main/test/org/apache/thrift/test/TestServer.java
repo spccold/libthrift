@@ -18,7 +18,7 @@
  */
 
 package org.apache.thrift.test;
-
+//all server type and associate initial way
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

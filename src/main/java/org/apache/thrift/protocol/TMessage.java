@@ -33,9 +33,11 @@ public final class TMessage {
     type = t;
     seqid = s;
   }
-
+  //method name
   public final String name;
+  //see TMessageType
   public final byte type;
+  //package id
   public final int seqid;
 
   @Override

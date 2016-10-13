@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Transport for use with async client.
+ * Transport for use with async client.(only for async client, are you kidding me?)
  */
 public class TNonblockingSocket extends TNonblockingTransport {
 

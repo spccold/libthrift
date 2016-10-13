@@ -63,11 +63,15 @@ public class TSimpleServer extends TServer {
       TProtocol outputProtocol = null;
       ServerContext connectionContext = null;
       try {
+        //TSocket
         client = serverTransport_.accept();
         if (client != null) {
+          //processor
           processor = processorFactory_.getProcessor(client);
+          //transport
           inputTransport = inputTransportFactory_.getTransport(client);
           outputTransport = outputTransportFactory_.getTransport(client);
+          //protocol
           inputProtocol = inputProtocolFactory_.getProtocol(inputTransport);
           outputProtocol = outputProtocolFactory_.getProtocol(outputTransport);
           if (eventHandler_ != null) {
@@ -77,6 +81,7 @@ public class TSimpleServer extends TServer {
             if (eventHandler_ != null) {
               eventHandler_.processContext(connectionContext, inputTransport, outputTransport);
             }
+            
             if(!processor.process(inputProtocol, outputProtocol)) {
               break;
             }
